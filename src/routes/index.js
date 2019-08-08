@@ -7,11 +7,14 @@ import DocumentTitle from 'react-document-title';
 import AllComponents from '../components';
 import routesConfig from './config';
 import queryString from 'query-string';
+import * as menu from '../api/menu';
 
+// var routesConfig =[]
 export default class CRouter extends Component {
     requireAuth = (permission, component) => {
         const { auth } = this.props;
         const { permissions } = auth.data;
+        
         // const { auth } = store.getState().httpData;
         if (!permissions || !permissions.includes(permission)) return <Redirect to={'404'} />;
         return component;
@@ -25,12 +28,28 @@ export default class CRouter extends Component {
         }
         return permission ? this.requireAuth(permission, component) : component;
     };
+
+    componentWillMount() {
+
+        menu.menuList().then(res => {
+            // routesConfig = res.data;
+            // console.log("JSON.stringify(info)",routesConfig);
+          
+        });
+      }
+    //   componentWillReceiveProps() {
+    //     this.initPage();
+    //   }
+
     render() {
         return (
             <Switch>
                 {Object.keys(routesConfig).map(key =>
+
+
                     routesConfig[key].map(r => {
                         const route = r => {
+                           
                             const Component = AllComponents[r.component];
                             return (
                                 <Route
