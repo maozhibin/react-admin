@@ -6,6 +6,8 @@ import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import routes from '../routes/config';
 import SiderMenu from './SiderMenu';
+import * as menu from '../api/menu';
+
 
 const { Sider } = Layout;
 
@@ -42,9 +44,21 @@ class SiderCustom extends Component {
         openKey: '',
         selectedKey: '',
         firstHide: true, // 点击收缩菜单，第一次隐藏展开子菜单，openMenu时恢复
+        menuList : [],
     };
     componentDidMount() {
-        // this.setMenuOpen(this.props);
+        //获取菜单
+        menu.menuList().then(menuStr => {
+            //存储菜单
+            menuList : JSON.stringify(menuStr.data)
+            // localStorage.setItem('menuList', JSON.stringify(menuStr.data))
+        });
+
+        // this.setState({
+        //     menuList : localStorage.getItem('menuList')
+        // })
+        console.log("this.state.menuLis2222:"+this.state.menuLis);
+
         const state = SiderCustom.setMenuOpen(this.props);
         this.setState(state);
     }
@@ -63,6 +77,7 @@ class SiderCustom extends Component {
     };
     render() {
         const { selectedKey, openKey, firstHide, collapsed } = this.state;
+        console.log("this.state.menuLis:"+this.state.menuLis);
         return (
             <Sider
                 trigger={null}
@@ -72,7 +87,7 @@ class SiderCustom extends Component {
             >
                 <div className="logo" />
                 <SiderMenu
-                    menus={routes.menus}
+                    menus={this.state.menuList}
                     onClick={this.menuClick}
                     mode="inline"
                     selectedKeys={[selectedKey]}

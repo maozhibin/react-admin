@@ -9,37 +9,33 @@ import { connectAlita } from 'redux-alita';
 // import browserHistory from 'react-router';
 
 import * as login from '../../api/login';
-
-
-
+import * as menu from '../../api/menu';
 
 const FormItem = Form.Item;
 
 class Login extends React.Component {
-    // componentDidMount() {
-    //     const { setAlitaState } = this.props;
-    //     setAlitaState({ stateName: 'auth', data: null });
-    // }
-    // componentDidUpdate(prevProps) { // React 16.3+弃用componentWillReceiveProps
-    //     const { auth: nextAuth = {}, history } = this.props;
-    //     // const { history } = this.props;
-    //     if (nextAuth.data && nextAuth.data.uid) { // 判断是否登陆
-    //         localStorage.setItem('user', JSON.stringify(nextAuth.data));
-    //         history.push('/');
-    //     }
-    // }
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 
-                login.login(values).then(res => {
-                    console.log("JSON.stringify(info)",JSON.stringify(res));
+                 login.login(values).then(res => {
+                    //获取菜单
+                    menu.menuList().then(menuStr => {
+                        //存储菜单
+                        localStorage.setItem('menuList', JSON.stringify(menuStr.data))
+                    });
                     this.props.history.push('/app/dashboard/index')
                 });
             }
         });
     };
+
+    setProfile(profile){
+        // Saves profile data to localStorage
+        localStorage.setItem('menuList', JSON.stringify(profile))
+      }
+
     gitHub = () => {
         window.location.href = 'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';
     };

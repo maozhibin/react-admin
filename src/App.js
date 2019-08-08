@@ -67,7 +67,6 @@ class App extends Component {
         // 获取当前浏览器宽度并设置responsive管理响应式
         const { setAlitaState } = this.props;
         const clientWidth = window.innerWidth;
-        console.log(clientWidth);
         setAlitaState({ stateName: 'responsive', data: { isMobile: clientWidth <= 992 } });
         // receiveData({isMobile: clientWidth <= 992}, 'responsive');
     };
@@ -79,7 +78,6 @@ class App extends Component {
     render() {
         const { title } = this.state;
         const { auth = { data: {} }, responsive = { data: {} } } = this.props;
-        console.log(auth);
         return (
             <DocumentTitle title={title}>
                 <Layout>
