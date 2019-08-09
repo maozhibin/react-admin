@@ -10,6 +10,7 @@ import { connectAlita } from 'redux-alita';
 
 import * as login from '../../api/login';
 import * as menu from '../../api/menu';
+import routes from '../../routes/config';
 
 const FormItem = Form.Item;
 
@@ -23,7 +24,9 @@ class Login extends React.Component {
                     //获取菜单
                     menu.menuList().then(menuStr => {
                         //存储菜单
-                        localStorage.setItem('menuList', JSON.stringify(menuStr.data))
+                        localStorage.setItem('menuList', menuStr.data)
+                        console.log( 'localStorage.getItem:'+localStorage.getItem('menuList'))
+
                     });
                     this.props.history.push('/app/dashboard/index')
                 });
@@ -31,10 +34,6 @@ class Login extends React.Component {
         });
     };
 
-    setProfile(profile){
-        // Saves profile data to localStorage
-        localStorage.setItem('menuList', JSON.stringify(profile))
-      }
 
     gitHub = () => {
         window.location.href = 'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';
