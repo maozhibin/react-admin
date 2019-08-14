@@ -31,16 +31,13 @@ export default class CRouter extends Component {
 
     componentWillMount() {
 
+
         menu.menuList().then(res => {
             // routesConfig = res.data;
             // console.log("JSON.stringify(info)",routesConfig);
           
         });
       }
-    //   componentWillReceiveProps() {
-    //     this.initPage();
-    //   }
-
     render() {
         return (
             <Switch>

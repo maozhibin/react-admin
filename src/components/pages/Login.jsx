@@ -7,11 +7,8 @@ import { PwaInstaller } from '../widget';
 import { connectAlita } from 'redux-alita';
 // import {browserHistory} from 'react-router';
 // import browserHistory from 'react-router';
-
 import * as login from '../../api/login';
 import * as menu from '../../api/menu';
-import routes from '../../routes/config';
-
 const FormItem = Form.Item;
 
 class Login extends React.Component {
@@ -24,16 +21,16 @@ class Login extends React.Component {
                     //获取菜单
                     menu.menuList().then(menuStr => {
                         //存储菜单
-                        localStorage.setItem('menuList', menuStr.data)
-                        console.log( 'localStorage.getItem:'+localStorage.getItem('menuList'))
-
+                        // console.log("menuStr.data:",menuStr.data)
+                        // console.log("JSON.stringify(menuStr.data):",JSON.stringify(menuStr.data))
+                        // console.log("JSON.stringify(menuStr.data)JSON.stringify(menuStr.data),",JSON.parse(JSON.stringify(menuStr.data)))
+                        localStorage.setItem('menuList', JSON.stringify(menuStr.data))
                     });
                     this.props.history.push('/app/dashboard/index')
                 });
             }
         });
     };
-
 
     gitHub = () => {
         window.location.href = 'https://github.com/login/oauth/authorize?client_id=792cdcd244e98dcd2dee&redirect_uri=http://localhost:3006/&scope=user&state=reactAdmin';

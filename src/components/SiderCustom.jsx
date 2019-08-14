@@ -6,7 +6,6 @@ import { Layout } from 'antd';
 import { withRouter } from 'react-router-dom';
 import routes from '../routes/config';
 import SiderMenu from './SiderMenu';
-
 const { Sider } = Layout;
 
 class SiderCustom extends Component {
@@ -45,12 +44,18 @@ class SiderCustom extends Component {
         menuList : localStorage.getItem('menuList'),
     };
     componentDidMount() {
+        console.log("this.state.menuList:",this.state.menuList)
+            if(this.state.menuList==null){
+                this.state.menuList = routes.menus;
+                alert(11111111111)
+            }
+
+
         //获取菜单
         //存储菜单
-        // this.setState({
-        //     menuList : localStorage.getItem('menuList')
-        // })
         const state = SiderCustom.setMenuOpen(this.props);
+
+        console.log("state:",this.props)
         this.setState(state);
     }
     menuClick = e => {
@@ -77,7 +82,8 @@ class SiderCustom extends Component {
             >
                 <div className="logo" />
                 <SiderMenu
-                    menus={localStorage.getItem('menuList')}
+                    // menus={JSON.parse(this.state.menuList)}
+                    menus={routes.menus}
                     onClick={this.menuClick}
                     mode="inline"
                     selectedKeys={[selectedKey]}
