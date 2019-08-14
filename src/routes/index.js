@@ -7,43 +7,40 @@ import DocumentTitle from 'react-document-title';
 import AllComponents from '../components';
 import routesConfig from './config';
 import queryString from 'query-string';
-import * as menu from '../api/menu';
-
 // var routesConfig =[]
 export default class CRouter extends Component {
     requireAuth = (permission, component) => {
         const { auth } = this.props;
         const { permissions } = auth.data;
-        
-        // const { auth } = store.getState().httpData;
         if (!permissions || !permissions.includes(permission)) return <Redirect to={'404'} />;
         return component;
     };
     requireLogin = (component, permission) => {
         const { auth } = this.props;
         const { permissions } = auth.data;
-        if (process.env.NODE_ENV === 'production' && !permissions) {
+        let user = localStorage.getItem("user");
+        if (user==null) {
+            console.log("user={}",user)
             // 线上环境判断是否登录
             return <Redirect to={'/login'} />;
         }
         return permission ? this.requireAuth(permission, component) : component;
     };
 
-    componentWillMount() {
+
+    // componentDidMounted(){
+
+    // }
+
+    // componentWillMount() {
+
+    // }
 
 
-        menu.menuList().then(res => {
-            // routesConfig = res.data;
-            // console.log("JSON.stringify(info)",routesConfig);
-          
-        });
-      }
     render() {
         return (
             <Switch>
                 {Object.keys(routesConfig).map(key =>
-
-
                     routesConfig[key].map(r => {
                         const route = r => {
                            

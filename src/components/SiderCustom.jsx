@@ -32,7 +32,6 @@ class SiderCustom extends Component {
     static onCollapse = (collapsed) => {
         return {
             collapsed,
-            // firstHide: collapsed,
             mode: collapsed ? 'vertical' : 'inline',
         };
     };
@@ -41,21 +40,17 @@ class SiderCustom extends Component {
         openKey: '',
         selectedKey: '',
         firstHide: true, // 点击收缩菜单，第一次隐藏展开子菜单，openMenu时恢复
-        menuList : localStorage.getItem('menuList'),
+        menuList : localStorage.getItem('menuList')||'[]',
     };
     componentDidMount() {
-        console.log("this.state.menuList:",this.state.menuList)
-            if(this.state.menuList==null){
-                this.state.menuList = routes.menus;
-                alert(11111111111)
-            }
-
-
         //获取菜单
         //存储菜单
         const state = SiderCustom.setMenuOpen(this.props);
+        if(this.state.menuList==null){
+            localStorage.setItem("menuList",routes.menus)
+            this.props.history.push('/login')
+        }
 
-        console.log("state:",this.props)
         this.setState(state);
     }
     menuClick = e => {
@@ -82,8 +77,7 @@ class SiderCustom extends Component {
             >
                 <div className="logo" />
                 <SiderMenu
-                    // menus={JSON.parse(this.state.menuList)}
-                    menus={routes.menus}
+                    menus={JSON.parse(this.state.menuList)}
                     onClick={this.menuClick}
                     mode="inline"
                     selectedKeys={[selectedKey]}
